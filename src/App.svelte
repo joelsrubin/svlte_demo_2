@@ -1,42 +1,26 @@
 <script>
-  let search = '';
-  let loading = false;
-
-  const API_URL =
-    'https://api.giphy.com/v1/gifs/search?api_key=XWHjPb73dInIg0I3Jv3fhRwQD8n1Nkhy&q=';
-
-  let gifs = [];
-
-  const formSubmitted = async (event) => {
-    gifs = [];
-    event.preventDefault();
-    loading = true;
-    const url = `${API_URL}${search}`;
-    const response = await fetch(url);
-    const json = await response.json();
-    gifs = json.data.map((gif) => gif.images.fixed_height.url);
-    loading = false;
-  };
+  // const colorThief = new ColorThief();
+  const colorThief = new ColorThief();
+  const img = document.querySelector('.img');
+  console.log(img);
+  // Make sure image is finished loading
+  if (img.complete) {
+    let color = colorThief.getColor(img);
+    console.log(color);
+  } else {
+    image.addEventListener('load', function () {
+      colorThief.getColor(img);
+    });
+  }
 </script>
 
 <main>
-  <form on:submit={formSubmitted}>
-    <label for="search" />
-    <input bind:value={search} id="search" name="search" />
-    <button>GO</button>
-  </form>
-  {#if loading}
-    <img
-      alt="thinking"
-      src="https://media.giphy.com/media/l3nWhI38IWDofyDrW/giphy.gif"
-    />
-  {/if}
-
-  <div class="results">
-    {#each gifs as gif}
-      <img alt="gif" src={gif} />
-    {/each}
-  </div>
+  <h2>Hello World</h2>
+  <img
+    class="img"
+    alt="landscape"
+    src="https://freight.cargo.site/w/750/i/5119154af544436a4e30a451a5586ce9a6fd462b9671d321a3eda093cda11225/R0001605.jpg"
+  />
 </main>
 
 <style>
@@ -54,9 +38,6 @@
     font-weight: 100;
   }
 
-  .results {
-    column-count: 3;
-  }
   img {
     width: 100%;
     height: auto;
